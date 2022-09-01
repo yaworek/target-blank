@@ -2,18 +2,18 @@
 /**
  * Plugin Name: Target _blank
  * Description: Adds or creates <code>target = "_ blank"</code> in links on the_content() in single post
- * Version:     1.0.1
+ * Version:     1.0.2
  * Plugin URI:  https://jetplugs.com
  * Author:      jetplugs.com
  * License:     GPL-2.0+
  * Text Domain: tmc_mm
  * Domain Path: /langugages
  *
-*/
+ */
 
 
 if ( ! defined( 'ABSPATH' ) ) {
-	die( 'Die, silly human!' );
+    die( 'Die, silly human!' );
 }
 
 
@@ -31,7 +31,7 @@ function modifyContent( $content )
         libxml_use_internal_errors( true );
 
         $matches                   = array();
-        $dom                       = new DOMDocument();
+        $dom                       = new DOMDocument('1.0', 'UTF-8');
         $dom->strictErrorChecking  = false;
         $dom->validateOnParse      = false;
 
@@ -41,7 +41,7 @@ function modifyContent( $content )
         foreach ( $matches[0] as $match )
         {
 
-            $dom->loadHTML( $match );
+            $dom->loadHTML( mb_convert_encoding($match, 'HTML-ENTITIES', 'UTF-8') );
 
             foreach ( $dom->getElementsByTagName( 'a' ) as $item )
             {
